@@ -59,7 +59,10 @@ const RootQuery = new GraphQLObjectType({
         id: { type: new GraphQLNonNull(UUIDType) },
       },
       resolve: async (_, arg: { id: string }, context: GraphQLContext) =>
-        await context.prisma.user.findUnique({ where: { id: arg.id } }),
+        await context.prisma.user.findUnique({
+          where: { id: arg.id },
+          include: { userSubscribedTo: true },
+        }),
     },
   },
 });
